@@ -1,10 +1,10 @@
 # Add project dependencies here, one per line.
 
-datapizza-ai
-datapizza-ai-clients-google
-datapizza-ai-clients-openai
-datapizza-ai-cache-redis
-python-dotenv
-pydantic
-pytest
-streamlit
+datapizza-ai==0.1.0
+datapizza-ai-cache-redis=0.0.5
+datapizza-ai-clients-google==0.0.10
+datapizza-ai-clients-openai==0.0.12
+pydantic==2.13.1
+pytest==9.0.3
+python-dotenv==1.2.2
+streamlit==1.57.0
