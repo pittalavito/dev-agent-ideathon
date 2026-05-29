@@ -31,20 +31,19 @@ def init_dev_agent():
 @observe_event
 def _init_dev_agent():
   """Initialize the Agent with the system prompt and tools. Skips if already initialized."""
+  
   global _DEV_AGENT, _DEV_AGENT_MODEL
 
   TOOL_REGISTRY = [map_api_rest, generate_ts_api]
   
-  SYSTEM_PROMPT = """Sei uno sviluppatore Software FE, stack (React, Typescript). 
-  Chiedi all'utente di fornirti la documentazione testuale di un API REST e mappala in un contratto strutturato ApiRestContract,
-  includendo sia la request (method, uri, params, body) che le possibili response (status code, descrizione, body fields). 
-  L'utente ti fornisce la documentazione testuale di un'API REST.
-  Regole:
-  1) Massimo 1 chiamata tool per step. 
-  2) Step 1: chiama map_api_rest con il testo dell'utente come argomento 'text'.
-  3) Step 2: chiama generate_ts_api passando come 'contract_json' l'output JSON esatto restituito da map_api_rest. Non rielaborarlo.
-  4) Step 3: restituisci l'output JSON esatto di generate_ts_api senza modifiche.
-  """
+  SYSTEM_PROMPT = (
+    "Sei un dev FE (React/TypeScript). "
+    "Ricevi documentazione testuale di un'API REST. "
+    "Regole: 1 tool per step. "
+    "Step 1: chiama map_api_rest(text=<testo utente>). "
+    "Step 2: chiama generate_ts_api(contract_json=<output esatto step 1>). "
+    "Step 3: restituisci l'output esatto di generate_ts_api senza modifiche."
+  )
     
   client = get_fast_client()
   _DEV_AGENT_MODEL = client.model_name
