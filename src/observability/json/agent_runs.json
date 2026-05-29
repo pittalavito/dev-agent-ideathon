@@ -1,14 +1,14 @@
 [
   {
-    "run_id": "54b6513b-ecc4-484f-aea1-c83d6907e613",
+    "run_id": "aa8a2619-b8a4-4b01-8f75-0404cd90078e",
     "agentName": "run_dev_agent",
-    "latency_ms": 7560.4,
-    "ok": true,
-    "llm_model": "gpt-4o",
+    "latency_ms": 15.1,
+    "ok": false,
+    "llm_model": null,
     "agent_tokens": {
-      "input": 1080,
-      "output": 328,
-      "cost_eur": 0.00706
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
     },
     "tool_tokens": {
       "input": 0,
@@ -16,65 +16,133 @@
       "cost_eur": 0.0
     },
     "total_tokens": {
-      "input": 1080,
-      "output": 328,
-      "cost_eur": 0.00706
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
     },
-    "tool_calls_names": [
-      "map_api_rest"
-    ],
-    "ts": 1780047531.724553
+    "tool_calls_names": [],
+    "ts": 1780062101.7027767
   },
   {
-    "run_id": "2573d925-9060-4479-b87c-90f45a112316",
+    "run_id": "95d9b573-6154-458a-9092-2740ba5be89c",
     "agentName": "run_dev_agent",
-    "latency_ms": 12252.9,
+    "latency_ms": 13.8,
+    "ok": false,
+    "llm_model": null,
+    "agent_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "total_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_calls_names": [],
+    "ts": 1780062119.4031122
+  },
+  {
+    "run_id": "22e5ad59-a5df-4883-87dd-e07b0bcb7db0",
+    "agentName": "run_dev_agent",
+    "latency_ms": 39.3,
+    "ok": false,
+    "llm_model": null,
+    "agent_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "total_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_calls_names": [],
+    "ts": 1780062176.2379758
+  },
+  {
+    "run_id": "1dd3a828-b1b0-4020-b89a-868b94227fed",
+    "agentName": "run_dev_agent",
+    "latency_ms": 44.4,
+    "ok": false,
+    "llm_model": null,
+    "agent_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "total_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "tool_calls_names": [],
+    "ts": 1780062328.356639
+  },
+  {
+    "run_id": "b9ed52e5-685f-4e3a-a303-2f32f846ec1d",
+    "agentName": "run_dev_agent",
+    "latency_ms": 3351.4,
     "ok": true,
     "llm_model": "gpt-4o",
     "agent_tokens": {
-      "input": 1572,
-      "output": 583,
-      "cost_eur": 0.011332
+      "input": 167,
+      "output": 40,
+      "cost_eur": 0.000984
     },
     "tool_tokens": {
-      "input": 919,
-      "output": 293,
-      "cost_eur": 0.006147
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
     },
     "total_tokens": {
-      "input": 2491,
-      "output": 876,
-      "cost_eur": 0.017479
+      "input": 167,
+      "output": 40,
+      "cost_eur": 0.000984
     },
-    "tool_calls_names": [
-      "map_api_rest"
-    ],
-    "ts": 1780047645.301949
+    "tool_calls_names": [],
+    "ts": 1780062520.2019649
   },
   {
-    "run_id": "721abc03-79e1-4421-94ae-b1f14ef9c2b6",
+    "run_id": "cf8b5357-4dfa-47fc-869a-d8426bed5586",
     "agentName": "run_dev_agent",
-    "latency_ms": 7696.3,
+    "latency_ms": 7919.1,
     "ok": true,
     "llm_model": "gpt-4o",
     "agent_tokens": {
-      "input": 1572,
-      "output": 592,
-      "cost_eur": 0.011422
+      "input": 611,
+      "output": 212,
+      "cost_eur": 0.004259
     },
     "tool_tokens": {
-      "input": 919,
-      "output": 293,
-      "cost_eur": 0.006147
+      "input": 728,
+      "output": 93,
+      "cost_eur": 0.003478
     },
     "total_tokens": {
-      "input": 2491,
-      "output": 885,
-      "cost_eur": 0.017569
+      "input": 1339,
+      "output": 305,
+      "cost_eur": 0.007737
     },
     "tool_calls_names": [
       "map_api_rest"
     ],
-    "ts": 1780048260.8980792
+    "ts": 1780062860.821265
   }
 ]

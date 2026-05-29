@@ -1,3 +1,5 @@
+from typing import Any, Union
+
 from datapizza.agents import Agent
 from client.client import get_fast_client, get_local_client
 from tool.tool import map_api_rest
@@ -9,7 +11,7 @@ _DEV_AGENT_MODEL: str = None
 
 
 @observe_agent_run
-def run_dev_agent(input: str) -> str:
+def run_dev_agent(input:  Union[str, object, Any]) -> str:
   """Run the Agent with the given input."""
   
   global _DEV_AGENT
@@ -19,7 +21,6 @@ def run_dev_agent(input: str) -> str:
   response = _DEV_AGENT.run(input)
   observe_token_usage(response, model=_DEV_AGENT_MODEL)
   return response.text[:2500]
-
 
 def init_dev_agent():
   """Initialize the Agent at startup."""
