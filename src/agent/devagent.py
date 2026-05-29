@@ -47,5 +47,6 @@ def _init_dev_agent():
     system_prompt=SYSTEM_PROMPT,
     tools=TOOL_REGISTRY,
     max_steps=2,
-    terminate_on_text=True,
+    terminate_on_text=True
+    #output_cls
   )
