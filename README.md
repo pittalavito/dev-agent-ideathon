@@ -37,5 +37,5 @@ L'app espone una UI minima in Streamlit per testare un solo caso d'uso: prendere
 ### Note sullo stato attuale
 
 - Le funzioni `heuristic_hello_world` e `llm_hello_world` sono presenti nel codice ma non sono esposte nella UI corrente.
-- La UI non gestisce cronologia, stato conversazionale, validazione avanzata dell'input o gestione esplicita degli errori.
+- La UI non gestisce cronologia, stato conversazionale, validazione avanzata dell'input o gestione esplicita degli errori..
 - L'app e' oggi un prototipo focalizzato sul test rapido del tool di mapping API.
