@@ -42,32 +42,14 @@ test/                     # contract test (pytest)
 
 ## Schema logico agente
 
-L'agente segue una pipeline deterministica a step:
+
+
+Schema logico minimale:
 
 ```mermaid
-flowchart TD
-    A[Input utente: doc API REST]
-    B{Step 1: mappo contratto?}
-    C{Step 2: genero TS?}
-    D{Step 3: restituisco JSON?}
-    E{Step 4: salvo file?}
-    F[Output: file TS e JSON]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
+flowchart LR
+  A[Input] --> B[map_api_rest] --> C[generate_ts_api] --> D[create_file_ts_api] --> E[Output]
 ```
-
-**Descrizione:**
-- L’agente riceve la documentazione testuale.
-- Esegue in sequenza:
-  1. Mappatura contratto API.
-  2. Generazione codice TypeScript.
-  3. Restituzione JSON generato.
-  4. Salvataggio file TypeScript.
-- Output: JSON e file TypeScript pronti all’uso.
 
 ## Test
 
