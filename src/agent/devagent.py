@@ -36,7 +36,8 @@ def _init_dev_agent():
   TOOL_REGISTRY = [map_api_rest]
   
   SYSTEM_PROMPT = """Sei uno sviluppatore Software FE, stack (React, Typescript). 
-  chiedi all'utente di fornirti la documentazione testuale di un API REST e mappala in un contratto strutturato ApiRestContract. 
+  Chiedi all'utente di fornirti la documentazione testuale di un API REST e mappala in un contratto strutturato ApiRestContract,
+  includendo sia la request (method, uri, params, body) che le possibili response (status code, descrizione, body fields). 
   """
     
   client = get_fast_client()

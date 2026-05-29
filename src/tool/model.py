@@ -20,14 +20,33 @@ class ApiRestMethod(str, Enum):
     POST = "POST"
     PUT = "PUT"
     DELETE = "DELETE"
+
+class ApiRestResponseField(BaseModel):
+    """Un singolo campo nella response body di un'API REST."""
+    name: str = Field(..., description="Field name.")
+    type: str = Field(..., description="Field type (e.g., string, number, uuid, timestamp, array).")
+    description: str = Field(default="", description="Brief description of the field.")
+
+class ApiRestResponse(BaseModel):
+    """Una singola response possibile (per status code)."""
+    status_code: int = Field(..., description="HTTP status code (e.g., 200, 201, 400, 404).")
+    description: str = Field(default="", description="Brief description of the response.")
+    body: list[ApiRestResponseField] = Field(
+        default_factory=list, 
+        description="Response body fields. Empty list if no body."
+    )
     
 
 class MapApiRestToolResponse(BaseModel):
-    method: ApiRestMethod = Field(..., description="HTTP method (e.g., GET, POST).")
-    uri: str = Field(..., description="API endpoint (e.g., /users).")
-    request_params: list[ApiRestField] = Field(default_factory=list, description="Query parameters for the API request.")
-    path_params: list[ApiRestField] = Field(default_factory=list, description="Path parameters for the API endpoint.")
-    request_body: list[ApiRestField] = Field(default_factory=list, description="Body fields for the API request.") 
+    method: ApiRestMethod
+    uri: str
+    request_params: list[ApiRestField]
+    path_params: list[ApiRestField]
+    request_body: list[ApiRestField]
+    responses: list[ApiRestResponse] = Field(
+      default_factory=list,
+      description="Possible API responses, one for status code."
+    )
 
 
 ### OTHER TOOL CONTRACTS ############################################################################################################

@@ -1,0 +1,80 @@
+[
+  {
+    "run_id": "54b6513b-ecc4-484f-aea1-c83d6907e613",
+    "agentName": "run_dev_agent",
+    "latency_ms": 7560.4,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 1080,
+      "output": 328,
+      "cost_eur": 0.00706
+    },
+    "tool_tokens": {
+      "input": 0,
+      "output": 0,
+      "cost_eur": 0.0
+    },
+    "total_tokens": {
+      "input": 1080,
+      "output": 328,
+      "cost_eur": 0.00706
+    },
+    "tool_calls_names": [
+      "map_api_rest"
+    ],
+    "ts": 1780047531.724553
+  },
+  {
+    "run_id": "2573d925-9060-4479-b87c-90f45a112316",
+    "agentName": "run_dev_agent",
+    "latency_ms": 12252.9,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 1572,
+      "output": 583,
+      "cost_eur": 0.011332
+    },
+    "tool_tokens": {
+      "input": 919,
+      "output": 293,
+      "cost_eur": 0.006147
+    },
+    "total_tokens": {
+      "input": 2491,
+      "output": 876,
+      "cost_eur": 0.017479
+    },
+    "tool_calls_names": [
+      "map_api_rest"
+    ],
+    "ts": 1780047645.301949
+  },
+  {
+    "run_id": "721abc03-79e1-4421-94ae-b1f14ef9c2b6",
+    "agentName": "run_dev_agent",
+    "latency_ms": 7696.3,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 1572,
+      "output": 592,
+      "cost_eur": 0.011422
+    },
+    "tool_tokens": {
+      "input": 919,
+      "output": 293,
+      "cost_eur": 0.006147
+    },
+    "total_tokens": {
+      "input": 2491,
+      "output": 885,
+      "cost_eur": 0.017569
+    },
+    "tool_calls_names": [
+      "map_api_rest"
+    ],
+    "ts": 1780048260.8980792
+  }
+]
