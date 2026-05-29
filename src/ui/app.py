@@ -5,6 +5,11 @@ import streamlit as st
 from agent.devagent import run_dev_agent
 from ui.logs_page import render_logs
 
+@st.cache_data
+def cached_run_dev_agent(api_doc: str) -> str:
+    """Wrapper con cache per evitare doppie chiamate LLM identiche"""
+    return run_dev_agent(api_doc)
+
 
 def StartHomePage() -> None:
     """The home page of the Streamlit app."""
@@ -17,7 +22,7 @@ def StartHomePage() -> None:
     api_clicked = st.button("Run ", key="api_button")
 
     if api_clicked and api_doc:
-        output = run_dev_agent(api_doc)
+        output = cached_run_dev_agent(api_doc)
         _render_agent_output(output)
 
     st.divider()
