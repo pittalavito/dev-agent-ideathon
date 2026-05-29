@@ -1,7 +1,7 @@
 # Add project dependencies here, one per line.
 
 datapizza-ai==0.1.0
-datapizza-ai-cache-redis=0.0.5
+datapizza-ai-cache-redis==0.0.5
 datapizza-ai-clients-google==0.0.10
 datapizza-ai-clients-openai==0.0.12
 pydantic==2.13.1
