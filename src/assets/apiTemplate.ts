@@ -186,3 +186,44 @@ export const useExampleAPI = (): APIMethods => {
  *
  * =========================================================
  */
+
+
+/**
+API: Creazione Ordine
+
+Endpoint: POST /api/v1/users/{userId}/orders
+
+Descrizione: Crea un nuovo ordine per un utente specifico.
+
+Path Parameters:
+- userId (string, obbligatorio): ID univoco dell'utente
+
+Query Parameters:
+- notify (boolean, opzionale): se true invia notifica email all'utente
+
+Request Body (JSON):
+- product_id (string, obbligatorio): ID del prodotto da ordinare
+- quantity (integer, obbligatorio): quantità desiderata, minimo 1
+- note (string, opzionale): note aggiuntive sull'ordine
+
+Response 201 - Ordine creato con successo:
+{
+  "order_id": "uuid",
+  "user_id": "uuid",
+  "product_id": "string",
+  "quantity": "integer",
+  "status": "string",
+  "created_at": "timestamp"
+}
+
+Response 400 - Dati non validi:
+{
+  "error": "string",
+  "details": "string"
+}
+
+Response 404 - Utente non trovato.
+
+Response 409 - Prodotto non disponibile nella quantità richiesta.
+
+**/
