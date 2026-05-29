@@ -103,5 +103,115 @@
       "generate_ts_api"
     ],
     "ts": 1780049321.8280885
+  },
+  {
+    "run_id": "2b95a845-73ac-433e-b689-54c64d1ced42",
+    "agentName": "run_dev_agent",
+    "latency_ms": 46367.7,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 22255,
+      "output": 4933,
+      "cost_eur": 0.127223
+    },
+    "tool_tokens": {
+      "input": 5019,
+      "output": 549,
+      "cost_eur": 0.023056
+    },
+    "total_tokens": {
+      "input": 27274,
+      "output": 5482,
+      "cost_eur": 0.150279
+    },
+    "tool_calls_names": [
+      "map_api_rest",
+      "generate_ts_api"
+    ],
+    "ts": 1780057801.2288585
+  },
+  {
+    "run_id": "0fdb83f3-932d-4419-97eb-3eb5db0d7f2e",
+    "agentName": "run_dev_agent",
+    "latency_ms": 21801.6,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 1588,
+      "output": 498,
+      "cost_eur": 0.010538
+    },
+    "tool_tokens": {
+      "input": 1064,
+      "output": 306,
+      "cost_eur": 0.006784
+    },
+    "total_tokens": {
+      "input": 2652,
+      "output": 804,
+      "cost_eur": 0.017322
+    },
+    "tool_calls_names": [
+      "map_api_rest",
+      "generate_ts_api"
+    ],
+    "ts": 1780058800.5277104
+  },
+  {
+    "run_id": "16642b03-32d0-4655-af3f-89f780af4701",
+    "agentName": "run_dev_agent",
+    "latency_ms": 19254.6,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 2850,
+      "output": 325,
+      "cost_eur": 0.013225
+    },
+    "tool_tokens": {
+      "input": 1239,
+      "output": 462,
+      "cost_eur": 0.008956
+    },
+    "total_tokens": {
+      "input": 4089,
+      "output": 787,
+      "cost_eur": 0.022181
+    },
+    "tool_calls_names": [
+      "map_api_rest",
+      "generate_ts_api",
+      "createFile_ts_api"
+    ],
+    "ts": 1780059038.018477
+  },
+  {
+    "run_id": "005fa016-f761-4439-b78d-a6a2c6d3b5cd",
+    "agentName": "run_dev_agent",
+    "latency_ms": 62068.2,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 31745,
+      "output": 4903,
+      "cost_eur": 0.160138
+    },
+    "tool_tokens": {
+      "input": 5413,
+      "output": 741,
+      "cost_eur": 0.026355
+    },
+    "total_tokens": {
+      "input": 37158,
+      "output": 5644,
+      "cost_eur": 0.186493
+    },
+    "tool_calls_names": [
+      "map_api_rest",
+      "generate_ts_api",
+      "createFile_ts_api"
+    ],
+    "ts": 1780059171.4055862
   }
 ]

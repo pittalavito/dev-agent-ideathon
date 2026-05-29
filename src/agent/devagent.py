@@ -1,6 +1,6 @@
 from datapizza.agents import Agent
 from client.client import get_fast_client, get_local_client
-from tool.tool import map_api_rest, generate_ts_api
+from tool.tool import map_api_rest, generate_ts_api, create_file_ts_api
 from observability.observility import observe_agent_run, observe_token_usage, observe_event
 
 
@@ -34,7 +34,7 @@ def _init_dev_agent():
   
   global _DEV_AGENT, _DEV_AGENT_MODEL
 
-  TOOL_REGISTRY = [map_api_rest, generate_ts_api]
+  TOOL_REGISTRY = [map_api_rest, generate_ts_api, create_file_ts_api]
   
   SYSTEM_PROMPT = (
     "Sei un dev FE (React/TypeScript). "
@@ -42,7 +42,7 @@ def _init_dev_agent():
     "Regole: 1 tool per step. "
     "Step 1: chiama map_api_rest(text=<testo utente>). "
     "Step 2: chiama generate_ts_api(contract_json=<output esatto step 1>). "
-    "Step 3: restituisci l'output esatto di generate_ts_api senza modifiche."
+    "Step 3: chiama create_file_ts_api(contract_json=<output esatto step 2>). "
   )
     
   client = get_fast_client()
