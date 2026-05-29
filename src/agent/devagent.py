@@ -44,7 +44,7 @@ def _init_dev_agent():
     "Step 2: chiama generate_ts_api(contract_json=<output esatto step 1>). "
     "Step 3: chiama create_file_ts_api(contract_json=<output esatto step 2>). "
     "Step 4: restituisci l'output esatto dello step 2 (il JSON di generate_ts_api) senza modifiche."
-)
+  )
     
   client = get_fast_client()
   _DEV_AGENT_MODEL = client.model_name
