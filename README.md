@@ -1,41 +1,31 @@
-# Guardare il file readme.ipynb per settare l'ambiente e avviare l'app
+# API Generator
 
-# Staccare da develop per fare le prove
+# Dev Agent Ideathon
 
-## Documentazione tecnica breve
+> Setup ambiente: vedi `readme.ipynb`. Lavorare su branch separato da `develop`.
 
-### Scopo attuale
+## Avvio
 
-L'app espone una UI minima in Streamlit per testare un solo caso d'uso: prendere in input una documentazione testuale di API REST e passarla a un agente che la converte in un contratto strutturato.
+```bash
+python -m streamlit run src/main.py
+```
 
-### Flusso applicativo
+## Stack
 
-1. L'entrypoint e' `src/main.py`.
-2. All'avvio vengono inizializzati logging, client LLM e istanza dell'agente `DevAgent`.
-3. La UI definita in `src/ui/app.py` mostra:
-	- titolo e testo descrittivo
-	- una `text_area` per incollare documentazione API REST
-	- un pulsante `Run`
-4. Al click del pulsante, se il campo non e' vuoto, la UI invoca `run_dev_agent(api_doc)`.
-5. `run_dev_agent()` esegue l'agente e restituisce al massimo i primi 2500 caratteri della risposta.
+- **UI**: Streamlit (`src/ui/app.py` + `src/ui/logs_page.py`)
+- **Agent**: `DevAgent` — OpenAI `gpt-4o`, `max_steps=2`, tool: `map_api_rest`
+- **Client**: `_FAST_CLIENT` (OpenAI) / `_LOCAL_CLIENT` (Ollama `gemma4` locale, non ancora usato)
+- **Observability**: log di agent run e tool call persistiti in JSON, visibili nella UI
 
-### Componenti attivi
+## Struttura `src/`
 
-- `src/ui/app.py`: pagina Streamlit singola.
-- `src/agent/devagent.py`: crea e mantiene un agente singleton `DevAgent`.
-- `src/tool/tool.py`: registra i tool disponibili all'agente.
-- `src/tool/impl/map_api_rest.py`: implementazione concreta del mapping della documentazione API.
-
-### Configurazione corrente dell'agente
-
-- Nome agente: `DevAgent`
-- Tool effettivamente abilitato: `map_api_rest`
-- `max_steps=2`
-- `terminate_on_text=True`
-- Prompt di sistema orientato a mapping di documentazione REST verso `ApiRestContract`
-
-### Note sullo stato attuale
-
-- Le funzioni `heuristic_hello_world` e `llm_hello_world` sono presenti nel codice ma non sono esposte nella UI corrente.
-- La UI non gestisce cronologia, stato conversazionale, validazione avanzata dell'input o gestione esplicita degli errori..
-- L'app e' oggi un prototipo focalizzato sul test rapido del tool di mapping API.
+```
+main.py
+agent/devagent.py        # singleton DevAgent
+client/client.py         # init client LLM
+tool/tool.py             # map_api_rest tool
+tool/model.py            # MapApiRestToolResponse (Pydantic)
+ui/app.py                # pagina principale
+ui/logs_page.py          # tab Agent Runs / Tool Calls
+observability/           # decoratori observe_*, pricing, modelli
+```
