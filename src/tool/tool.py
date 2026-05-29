@@ -1,56 +1,38 @@
 import json
 
-
+from datapizza.core.clients.models import ClientResponse
 from datapizza.tools import tool
-from observability.observe import get_logger
-from tool.impl.heuristic_hello_world import heuristic_hello_world as heuristic_hello_world_tool
-from tool.impl.llm_hello_world import llm_hello_world as llm_hello_world_tool
-from tool.impl.map_api_rest import map_api_rest as map_api_rest_tool
-
-
-### LOGGING SETUP ###
-_HEURISTIC_LOG_PREFIX = "[heuristic-tool]"
-_LLM_LOG_PREFIX = "[use-llm-tool]"
-_logger = get_logger()
-
-
-### TOOL DEFINITIONS ###
-_TOOL_DEFINITIONS = {
-    "heuristic-tool": ["heuristic_hello_world"],
-    "llm-tool": ["llm_hello_world", "map_api_rest"]
-}
-
-
-### TOOLS IMPLEMENTATION ###
-@tool
-def heuristic_hello_world(name: str) -> str:
-    """Heuristic: This tool takes a name as input and returns a greeting message."""
-    _logger.info(f"{_HEURISTIC_LOG_PREFIX} [heuristic_hello_world] Received input")
-    
-    response = heuristic_hello_world_tool(name)
-    
-    _logger.info(f"{_HEURISTIC_LOG_PREFIX} [heuristic_hello_world] generated response")    
-    return response
+from tool.model import ToolType, MapApiRestToolResponse
+from client.client import get_fast_client
+from observability.observility import observe_tool_run, observe_token_usage
 
 
 @tool
-def llm_hello_world(name: str) -> str:
-    """LLM: This tool takes a name as input and returns a greeting message using a language model."""
-    _logger.info(f"{_LLM_LOG_PREFIX} [llm_hello_world] Received input")
-    
-    response = llm_hello_world_tool(name)
-    
-    _logger.info(f"{_LLM_LOG_PREFIX} [llm_hello_world] generated response")
-    return response
-
-
-@tool
+@observe_tool_run(ToolType.REMOTE_LLM)
 def map_api_rest(text: str) -> str:
-    """This tool maps a textual API documentation to a structured ApiRestContract."""
-    _logger.info(f"{_LLM_LOG_PREFIX} [map_api_rest] Received text input for API mapping")
-       
-    response = map_api_rest_tool(text)
+    """Receives a textual api documentation and maps it to a structured ApiRestContract."""
     
-    _logger.info(f"{_LLM_LOG_PREFIX} [map_api_rest] generated response")
-    return response
+    INPUT = f"Trasforma questa documentazione API in una struttura dati: {text}"
+    
+    SYSTEM_PROMPT = (
+        "Sei un assistente che prende una documentazione testuale di un'API REST"
+        "E la trasforma in una struttura dati per effettuare una chiamata API REST."
+        "La struttura dati deve essere un oggetto ApiRestContract con i seguenti campi: method, uri, request_params, path_params, request_body."
+        "request_params, path_params e request_body devono essere liste di oggetti con campi name e value."
+        "Se un gruppo di campi non esiste, restituisci una lista vuota."
+    )
+    
+    client = get_fast_client()
+    
+    response: ClientResponse = client.structured_response(
+        input=INPUT,
+        system_prompt=SYSTEM_PROMPT,
+        output_cls=MapApiRestToolResponse,
+        temperature=0.1
+    )
+    
+    observe_token_usage(response, model=client.model_name)
+    structured_response: MapApiRestToolResponse = response.structured_data[0]
+    result = json.dumps(structured_response.model_dump(), ensure_ascii=False, indent=2)
+    return result
     

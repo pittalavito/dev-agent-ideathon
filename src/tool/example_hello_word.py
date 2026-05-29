@@ -1,7 +1,21 @@
+"""Example tool implementation: Hello World.
+This file demonstrates how to implement a simple tool that can be used by the Agent.        
+The heuristic_hello_world function is a simple deterministic implementation that generates a greeting message based on the input name. The llm_hello_world function uses a language model to generate the greeting message, showcasing how to integrate an LLM into a tool implementation.
+"""
 import json
 
-from tool.contract import HelloWordContract
 from client.client import get_fast_client
+from pydantic import BaseModel, Field
+
+class HelloWordContract(BaseModel):
+    response: str = Field(..., description="The response message.")
+
+
+def heuristic_hello_world(name: str) -> str:
+    """Heuristic: This tool takes a name as input and returns a greeting message."""
+    hello_word = HelloWordContract(response=f"Hello, {name}!")
+    response = hello_word.model_dump_json(indent=2)    
+    return response
 
 
 def llm_hello_world(name: str) -> str:

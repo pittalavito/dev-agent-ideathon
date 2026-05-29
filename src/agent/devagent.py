@@ -1,57 +1,51 @@
-
-from observability.observe import get_logger
 from datapizza.agents import Agent
-from datapizza.tools import Tool
-from dotenv import load_dotenv
-from client.client import get_fast_client
-from tool.tool import heuristic_hello_world, llm_hello_world, map_api_rest
-
-load_dotenv()
+from client.client import get_fast_client, get_local_client
+from tool.tool import map_api_rest
+from observability.observility import observe_agent_run, observe_token_usage, observe_event
 
 
-### LOGGING SETUP ###
-_LOG_PREFIX = "[agent]"
-_logger = get_logger()
-
-### GLOBALS ###
-_dev_agent: Agent = None
+_DEV_AGENT: Agent = None
+_DEV_AGENT_MODEL: str = None
 
 
+@observe_agent_run
 def run_dev_agent(input: str) -> str:
   """Run the Agent with the given input."""
   
-  _logger.info(f"{_LOG_PREFIX}: run_dev_agent called")
-
-  global _dev_agent
+  global _DEV_AGENT
+  if _DEV_AGENT is None:
+    _init_dev_agent()
   
-  if _dev_agent is None:
-    init_dev_agent()
-    
-  response = _dev_agent.run(input)
+  response = _DEV_AGENT.run(input)
+  observe_token_usage(response, model=_DEV_AGENT_MODEL)
   return response.text[:2500]
 
 
 def init_dev_agent():
-  """Initialize the Agent with the system prompt and tools."""  
-  
-  _logger.info(f"{_LOG_PREFIX}: Initializing DevAgent")
-  
-  global _dev_agent
-  
-  _dev_agent = Agent(
-    name="DevAgent",
-    client=get_fast_client(),
-    system_prompt=_system_promt(),
-    tools=[map_api_rest],
-    max_steps=2,
-    terminate_on_text=True,
-    #output_cls=str
-  )
+  """Initialize the Agent at startup."""
+  global _DEV_AGENT
+  if _DEV_AGENT is None:
+    _init_dev_agent()
 
 
-def _system_promt() -> str:
-  """System prompt for the DevAgent."""  
+@observe_event
+def _init_dev_agent():
+  """Initialize the Agent with the system prompt and tools. Skips if already initialized."""
+  global _DEV_AGENT, _DEV_AGENT_MODEL
+
+  TOOL_REGISTRY = [map_api_rest]
   
-  return """Sei uno sviluppatore Software FE, stack (React, Typescript). 
+  SYSTEM_PROMPT = """Sei uno sviluppatore Software FE, stack (React, Typescript). 
   chiedi all'utente di fornirti la documentazione testuale di un API REST e mappala in un contratto strutturato ApiRestContract. 
   """
+    
+  client = get_fast_client()
+  _DEV_AGENT_MODEL = client.model_name
+  _DEV_AGENT = Agent(
+    name="DevAgent",
+    client=client,
+    system_prompt=SYSTEM_PROMPT,
+    tools=TOOL_REGISTRY,
+    max_steps=2,
+    terminate_on_text=True,
+  )
