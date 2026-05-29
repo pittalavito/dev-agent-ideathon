@@ -1,16 +1,16 @@
 import logging
 
-from client.client import intialize_clients
+from client.client import init_clients
 from agent.devagent import init_dev_agent
 
-from ui.app import homePage
+from ui.app import StartHomePage
 
-# Set up logging configuration
-logging.basicConfig(level=logging.INFO, format="[%(levelname)s]: %(message)s")
+# Set up logging configuration (force=True prevents duplicate handlers on Streamlit reruns)
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s]: %(message)s", force=True)
 
 # Initialize at startup
-intialize_clients()
+init_clients()
 init_dev_agent()
 
 # Start the UI
-homePage()
+StartHomePage()
