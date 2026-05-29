@@ -1,7 +1,14 @@
+import json
+
 import streamlit as st
 
 from agent.devagent import run_dev_agent
 from ui.logs_page import render_logs
+
+@st.cache_data
+def cached_run_dev_agent(api_doc: str) -> str:
+    """Wrapper con cache per evitare doppie chiamate LLM identiche"""
+    return run_dev_agent(api_doc)
 
 
 def StartHomePage() -> None:
@@ -36,29 +43,43 @@ def StartHomePage() -> None:
             f"Request body: {request_body}\n"
             f"Responses: {responses}"
         )
-
-    #     request_params: list[ApiRestField]
-    # path_params: list[ApiRestField]
-    # request_body: list[ApiRestField]
-
-    # responses: list[ApiRestResponse] = Field(
-    #   default_factory=list,
-    #   description="Possible API responses, one for status code."
-    # )
-
-    
+  
     
     api_clicked = st.button("Run ", key="api_button")
 
     if api_clicked:
         if api_doc:
-            st.write(run_dev_agent(api_doc))
+            output = cached_run_dev_agent(api_doc)
+            st.write(output)
+            _render_agent_output(output)
         elif api_dettaglio:
-            st.write(run_dev_agent(api_dettaglio))
+            output = cached_run_dev_agent(api_dettaglio)
+            st.write(output)
+            _render_agent_output(output)
         else:
             st.warning("Compila il campo libero o i dettagli dell'API prima di eseguire.")
 
     st.divider()
     render_logs()
+
+
+def _render_agent_output(output: str) -> None:
+    try:
+        # extract first JSON object from agent response
+        start = output.index("{")
+        end = output.rindex("}") + 1
+        data = json.loads(output[start:end])
+    except (ValueError, json.JSONDecodeError):
+        st.write(output)
+        return
+
+    if "types_file" in data and "api_file" in data:
+        entity = data.get("entity_name", "entity").lower()
+        st.subheader(f"{entity}.types.ts")
+        st.code(data["types_file"], language="typescript")
+        st.subheader(f"{entity}.api.ts")
+        st.code(data["api_file"], language="typescript")
+    else:
+        st.write(output)
         
         

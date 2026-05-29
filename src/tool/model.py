@@ -52,5 +52,8 @@ class MapApiRestToolResponse(BaseModel):
 ### OTHER TOOL CONTRACTS ############################################################################################################
 
 
-
+class GenerateTsApiResponse(BaseModel):
+    entity_name: str = Field(..., description="Entity name in PascalCase (e.g., User).")
+    types_file: str = Field(..., description="Full content of entity.types.ts with typed RequestDTO and ResponseDTO interfaces.")
+    api_file: str = Field(..., description="Full content of entity.api.ts following the apiTemplate structure.")
 
