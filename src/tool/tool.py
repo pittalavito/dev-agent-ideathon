@@ -13,8 +13,8 @@ from observability.observility import observe_tool_run, observe_token_usage
 @observe_tool_run(ToolType.REMOTE_LLM)
 def map_api_rest(text: str) -> str:
     """Receives a textual api documentation and maps it to a structured ApiRestContract."""
-    
-    INPUT = f"API doc:\n{text}"
+    # In src/tool/tool.py -> def map_api_rest(text: str):
+    INPUT = f"API doc:\n{re.sub(r'\s+', ' ', text).strip() }"
 
     SYSTEM_PROMPT = (
         "Converti documentazione API REST in ApiRestContract JSON: "
