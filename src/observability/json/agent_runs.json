@@ -81,5 +81,33 @@
       "create_file_ts_api"
     ],
     "ts": 1780060564.0062103
+  },
+  {
+    "run_id": "099a9a1c-e7a7-4cb1-9fdd-d716dcc4532a",
+    "agentName": "run_dev_agent",
+    "latency_ms": 36497.1,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "agent_tokens": {
+      "input": 8153,
+      "output": 1941,
+      "cost_eur": 0.047946
+    },
+    "tool_tokens": {
+      "input": 1651,
+      "output": 738,
+      "cost_eur": 0.013158
+    },
+    "total_tokens": {
+      "input": 9804,
+      "output": 2679,
+      "cost_eur": 0.061104
+    },
+    "tool_calls_names": [
+      "map_api_rest",
+      "generate_ts_api",
+      "create_file_ts_api"
+    ],
+    "ts": 1780062013.4762728
   }
 ]

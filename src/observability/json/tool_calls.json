@@ -94,5 +94,41 @@
     "output_tokens": 0,
     "cost_eur": 0.0,
     "ts": 1780060562.060993
+  },
+  {
+    "run_id": "099a9a1c-e7a7-4cb1-9fdd-d716dcc4532a",
+    "toolName": "map_api_rest",
+    "type": "remote_llm",
+    "latency_ms": 4530.9,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "input_tokens": 782,
+    "output_tokens": 293,
+    "cost_eur": 0.005667,
+    "ts": 1780061987.9784927
+  },
+  {
+    "run_id": "099a9a1c-e7a7-4cb1-9fdd-d716dcc4532a",
+    "toolName": "generate_ts_api",
+    "type": "remote_llm",
+    "latency_ms": 6567.9,
+    "ok": true,
+    "llm_model": "gpt-4o",
+    "input_tokens": 869,
+    "output_tokens": 445,
+    "cost_eur": 0.007491,
+    "ts": 1780062000.535621
+  },
+  {
+    "run_id": "099a9a1c-e7a7-4cb1-9fdd-d716dcc4532a",
+    "toolName": "create_file_ts_api",
+    "type": "deterministic",
+    "latency_ms": 9.2,
+    "ok": true,
+    "llm_model": null,
+    "input_tokens": 0,
+    "output_tokens": 0,
+    "cost_eur": 0.0,
+    "ts": 1780062011.6671443
   }
 ]
