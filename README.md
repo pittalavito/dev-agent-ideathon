@@ -1,7 +1,8 @@
+# Dev Agent Ideathon — API Generator
+
 
 Questa applicazione trasforma la documentazione testuale di API REST in contratti strutturati e codice TypeScript pronto all’uso. Automatizza l’estrazione delle specifiche, la generazione del codice e la creazione dei file, facilitando l’integrazione di nuove API nei progetti frontend.
 
-# Dev Agent Ideathon — API Generator
 
 > Setup ambiente: vedi `readme.ipynb`. Lavorare su branch separato da `develop`.
 
