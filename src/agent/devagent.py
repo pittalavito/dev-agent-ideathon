@@ -1,6 +1,6 @@
 from datapizza.agents import Agent
 from client.client import get_fast_client, get_local_client
-from tool.tool import map_api_rest
+from tool.tool import map_api_rest, generate_ts_api
 from observability.observility import observe_agent_run, observe_token_usage, observe_event
 
 
@@ -18,7 +18,7 @@ def run_dev_agent(input: str) -> str:
   
   response = _DEV_AGENT.run(input)
   observe_token_usage(response, model=_DEV_AGENT_MODEL)
-  return response.text[:2500]
+  return response.text
 
 
 def init_dev_agent():
@@ -33,11 +33,17 @@ def _init_dev_agent():
   """Initialize the Agent with the system prompt and tools. Skips if already initialized."""
   global _DEV_AGENT, _DEV_AGENT_MODEL
 
-  TOOL_REGISTRY = [map_api_rest]
+  TOOL_REGISTRY = [map_api_rest, generate_ts_api]
   
   SYSTEM_PROMPT = """Sei uno sviluppatore Software FE, stack (React, Typescript). 
   Chiedi all'utente di fornirti la documentazione testuale di un API REST e mappala in un contratto strutturato ApiRestContract,
   includendo sia la request (method, uri, params, body) che le possibili response (status code, descrizione, body fields). 
+  L'utente ti fornisce la documentazione testuale di un'API REST.
+  Regole:
+  1) Massimo 1 chiamata tool per step. 
+  2) Step 1: chiama map_api_rest con il testo dell'utente come argomento 'text'.
+  3) Step 2: chiama generate_ts_api passando come 'contract_json' l'output JSON esatto restituito da map_api_rest. Non rielaborarlo.
+  4) Step 3: restituisci l'output JSON esatto di generate_ts_api senza modifiche.
   """
     
   client = get_fast_client()
@@ -47,7 +53,7 @@ def _init_dev_agent():
     client=client,
     system_prompt=SYSTEM_PROMPT,
     tools=TOOL_REGISTRY,
-    max_steps=2,
+    max_steps=4,
     terminate_on_text=True
     #output_cls
   )

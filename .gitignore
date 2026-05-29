@@ -1,4 +1,6 @@
 resource/
+agent_runs.json
+tool_calls.json
 
 # Python environment and cache
 .venv/
