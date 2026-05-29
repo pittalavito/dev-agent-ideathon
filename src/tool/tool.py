@@ -70,22 +70,18 @@ def generate_ts_api(contract_json: str) -> str:
     structured_response: GenerateTsApiResponse = response.structured_data[0]
     result = json.dumps(structured_response.model_dump(), ensure_ascii=False, indent=2)
     return result
-
-
-def _strip_ts_comments(ts: str) -> str:
-    """Remove comments and extra blank lines from TypeScript code."""
-    ts = re.sub(r'/\*[\s\S]*?\*/', '', ts)
-    ts = re.sub(r'//.*', '', ts)
-    ts = re.sub(r'\n\s*\n+', '\n', ts)
-    return ts.strip()
-
     
 
 @tool
 @observe_tool_run(ToolType.DETERMINISTIC)
-def create_file_ts_api(entity_name: str, types_file: str, api_file: str) -> str:
+def create_file_ts_api(contract_json: str) -> str:
     """Creates TypeScript files in src/assets/Api/{entity_name}/ from pre-generated content."""
     
+    contract = json.loads(contract_json)
+    entity_name = contract["entity_name"]
+    types_file = contract["types_file"]
+    api_file = contract["api_file"]
+
     # Create directory structure and files
     api_base_path = Path(__file__).parent.parent / "assets" / "Api" / entity_name
     api_base_path.mkdir(parents=True, exist_ok=True)
@@ -98,5 +94,13 @@ def create_file_ts_api(entity_name: str, types_file: str, api_file: str) -> str:
     api_file_path = api_base_path / f"{entity_name}.ts"
     api_file_path.write_text(api_file, encoding="utf-8")
     
-    result = json.dumps({...})
+    result = json.dumps({"types_file": str(types_file_path), "api_file": str(api_file_path)}, ensure_ascii=False, indent=2)
     return result
+
+
+def _strip_ts_comments(ts: str) -> str:
+    """Remove comments and extra blank lines from TypeScript code."""
+    ts = re.sub(r'/\*[\s\S]*?\*/', '', ts)
+    ts = re.sub(r'//.*', '', ts)
+    ts = re.sub(r'\n\s*\n+', '\n', ts)
+    return ts.strip()

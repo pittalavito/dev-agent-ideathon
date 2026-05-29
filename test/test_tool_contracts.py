@@ -14,10 +14,11 @@ Run from the src/ directory:
 """
 
 import json
+import shutil
 
 import pytest
 
-from tool.tool import generate_ts_api, map_api_rest
+from tool.tool import create_file_ts_api, generate_ts_api, map_api_rest
 
 # ---------------------------------------------------------------------------
 # Sample input
@@ -167,3 +168,82 @@ class TestGenerateTsApiContract:
     def test_api_file_has_error_handling(self, ts_output):
         assert "handleAxiosError" in ts_output["api_file"], \
             "api_file deve chiamare handleAxiosError"
+
+
+# ---------------------------------------------------------------------------
+# create_file_ts_api — structural + filesystem contract  (deterministico)
+# ---------------------------------------------------------------------------
+
+# Sample contract that matches GenerateTsApiResponse shape (no LLM needed)
+_SAMPLE_TS_CONTRACT = {
+    "entity_name": "_TestOrder",
+    "types_file": "export interface _TestOrderRequestDTO {}\nexport interface _TestOrderResponseDTO {}",
+    "api_file": (
+        "import { apiClient } from '@/api/client/axios';\n"
+        "import { handleAxiosError } from '@/api/client/errors';\n"
+        "export const use_TestOrderAPI = () => {};"
+    ),
+}
+
+# Path where the tool writes: src/assets/Api/{entity_name}/
+_API_OUTPUT_DIR = (
+    __import__("pathlib").Path(__file__).parent.parent
+    / "src" / "assets" / "Api" / _SAMPLE_TS_CONTRACT["entity_name"]
+)
+
+
+@pytest.fixture(scope="module")
+def create_ts_output():
+    """Calls create_file_ts_api once and yields the parsed output. Cleans up after the module."""
+    raw = create_file_ts_api.func(contract_json=json.dumps(_SAMPLE_TS_CONTRACT))
+    yield json.loads(raw)
+    if _API_OUTPUT_DIR.exists():
+        shutil.rmtree(_API_OUTPUT_DIR)
+
+
+class TestCreateFileTsApiContract:
+
+    def test_output_is_valid_json(self):
+        raw = create_file_ts_api.func(contract_json=json.dumps(_SAMPLE_TS_CONTRACT))
+        assert isinstance(json.loads(raw), dict), "output deve essere un oggetto JSON"
+
+    def test_output_has_required_fields(self, create_ts_output):
+        assert "types_file" in create_ts_output
+        assert "api_file" in create_ts_output
+
+    def test_types_file_created_on_disk(self, create_ts_output):
+        from pathlib import Path
+        assert Path(create_ts_output["types_file"]).exists(), \
+            f"types_file non trovato su disco: {create_ts_output['types_file']}"
+
+    def test_api_file_created_on_disk(self, create_ts_output):
+        from pathlib import Path
+        assert Path(create_ts_output["api_file"]).exists(), \
+            f"api_file non trovato su disco: {create_ts_output['api_file']}"
+
+    def test_types_file_content_matches(self, create_ts_output):
+        from pathlib import Path
+        content = Path(create_ts_output["types_file"]).read_text(encoding="utf-8")
+        assert content == _SAMPLE_TS_CONTRACT["types_file"], \
+            "contenuto di types_file non corrisponde all'input"
+
+    def test_api_file_content_matches(self, create_ts_output):
+        from pathlib import Path
+        content = Path(create_ts_output["api_file"]).read_text(encoding="utf-8")
+        assert content == _SAMPLE_TS_CONTRACT["api_file"], \
+            "contenuto di api_file non corrisponde all'input"
+
+    def test_files_under_entity_subdirectory(self, create_ts_output):
+        entity = _SAMPLE_TS_CONTRACT["entity_name"]
+        assert entity in create_ts_output["types_file"], \
+            "types_file deve trovarsi in una sottocartella col nome dell'entità"
+        assert entity in create_ts_output["api_file"], \
+            "api_file deve trovarsi in una sottocartella col nome dell'entità"
+
+    def test_types_file_extension(self, create_ts_output):
+        assert create_ts_output["types_file"].endswith(".types.ts"), \
+            "types_file deve avere estensione .types.ts"
+
+    def test_api_file_extension(self, create_ts_output):
+        assert create_ts_output["api_file"].endswith(".ts"), \
+            "api_file deve avere estensione .ts"
